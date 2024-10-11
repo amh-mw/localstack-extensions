@@ -1,5 +1,6 @@
 import logging
 import os
+import subprocess
 from typing import List
 
 from localstack import config
@@ -71,9 +72,11 @@ class TflocalScriptRunner(ScriptRunner):
         run(
             ["tflocal", f"-chdir={workdir}", "init", "-input=false"],
             env_vars={"PATH": env_path},
+            outfile=subprocess.PIPE,
         )
         LOG.debug("Applying terraform file %s", path)
         run(
             ["tflocal", f"-chdir={workdir}", "apply", "-auto-approve"],
             env_vars={"PATH": env_path},
+            outfile=subprocess.PIPE,
         )
